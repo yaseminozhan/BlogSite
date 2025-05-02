@@ -1,0 +1,36 @@
+﻿@model UyeAnaSayfaViewModel
+
+<div class="container mt-5">
+    <h2>Merhaba @User.Identity.Name 👋</h2>
+
+    @if (Model.TakipliKonuIdListesi.Any())
+    {
+        <h4>Takip Ettiğin Konulardaki Makaleler</h4>
+        @foreach (var makale in Model.TakipliMakaleler)
+        {
+            <div>@makale.Baslik - @makale.Yazar?.AdSoyad</div>
+        }
+
+        <a href="/Konu/Index" class="btn btn-outline-primary mt-3">Yeni Konu Ekle</a>
+    }
+    else
+    {
+        <p>Hiç konu takip etmiyorsun. Hemen seç 👇</p>
+        <a href="/Konu/Index" class="btn btn-primary">Konu Listesi</a>
+    }
+
+    <hr />
+    <h4>🔥 En Çok Okunan Makaleler</h4>
+    @foreach (var item in Model.PopulerMakaleler)
+    {
+        <div>@item.Baslik - @item.Yazar?.UserName</div>
+    }
+
+    <hr />
+    <h5>🔗 Sayfa Kısayolları</h5>
+    <a href="/Home/Hakkimizda" class="btn btn-outline-dark">Hakkımızda</a>
+    <a href="/Konu/Index" class="btn btn-outline-dark">Konu Listesi</a>
+    <a href="/Makale/Ekle" class="btn btn-outline-dark">Makale Ekle</a>
+    <a href="/Makale/Index" class="btn btn-outline-dark">Makale Listele</a>
+    <a href="/Yazar/Detay/@User.Identity.Name" class="btn btn-outline-dark">Yazar Sayfam</a>
+</div>

@@ -1,0 +1,100 @@
+﻿@using BlogSite.UI.Entities
+@model ApplicationUser
+
+@{
+    ViewData["Title"] = $"{Model.AdSoyad} - Profil";
+}
+
+<style>
+    body {
+        background: url('/images/arkaplan.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', sans-serif;
+        color: #fff;
+    }
+
+    .profil-kart {
+        background-color: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(5px);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        position: relative;
+    }
+
+    .avatar {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        box-shadow: 0 0 10px #000;
+    }
+
+    .makale-kart {
+        background-color: rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    h2, h4 {
+        text-shadow: 1px 1px 4px #000;
+    }
+
+    .btn-back {
+        border-radius: 30px;
+        font-weight: bold;
+    }
+
+    .yazar-info p {
+        margin-bottom: 5px;
+    }
+
+    .btn-duzenle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="profil-kart text-center mb-5">
+        @if (User.Identity?.IsAuthenticated == true && User.Identity.Name == Model.Email)
+        {
+            <a href="/Yazar/Duzenle" class="btn btn-outline-warning btn-sm btn-duzenle">✏️ Profili Düzenle</a>
+        }
+
+        <img src="@Model.FotoUrl" alt="Profil Fotoğrafı" class="avatar mb-3" onerror="this.src='/images/default-avatar.png'" />
+        <h2>@Model.AdSoyad</h2>
+
+        <div class="yazar-info mt-2">
+            <p class="text-muted">@Model.Email</p>
+            <p>@Model.Aciklama</p>
+            <small class="text-light">📅 Kayıt Tarihi: @Model.KayitTarihi.ToShortDateString()</small>
+        </div>
+    </div>
+
+    <h4 class="mb-3">📄 Yazarın Makaleleri</h4>
+
+    @if (Model.Makaleler == null || !Model.Makaleler.Any())
+    {
+        <div class="alert alert-warning">Bu yazar henüz makale yayınlamamış.</div>
+    }
+    else
+    {
+        @foreach (var m in Model.Makaleler.OrderByDescending(m => m.YayınTarihi))
+        {
+            <div class="makale-kart">
+                <h5 class="fw-bold">@m.Baslik</h5>
+                <p>@m.Icerik.Substring(0, Math.Min(m.Icerik.Length, 100))...</p>
+                <small class="text-muted">Yayın: @m.YayınTarihi.ToShortDateString() • Okuma: @m.OkumaSuresi dk</small><br />
+                <a href="/Makale/Detay/@m.MakaleId" class="btn btn-outline-light btn-sm mt-2">Devamını Oku</a>
+            </div>
+        }
+    }
+
+    <div class="text-center mt-4">
+        <a href="/" class="btn btn-outline-light btn-back">⬅️ Anasayfaya Dön</a>
+    </div>
+</div>

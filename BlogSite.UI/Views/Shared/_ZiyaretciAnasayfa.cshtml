@@ -1,0 +1,17 @@
+﻿@using BlogSite.UI.Entities
+<div class="container mt-5">
+    <h2>Blog Sitesi'ne Hoş Geldiniz!</h2>
+    <p>Yazmak, paylaşmak ve öğrenmek için aramıza katılın.</p>
+    <a href="/Account/Register" class="btn btn-success">Üye Ol</a>
+    <a href="/Home/Hakkimizda" class="btn btn-outline-info">Hakkımızda</a>
+
+    <hr />
+    <h4>🔥 En Çok Okunan Makaleler</h4>
+    @foreach (var item in ViewBag.Populer as List<Makale>)
+    {
+        <div>@item.Baslik - @item.Yazar?.UserName</div>
+    }
+
+    <h4>📚 Her Konudan Yazılar</h4>
+ 
+</div>

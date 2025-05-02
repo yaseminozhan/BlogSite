@@ -1,0 +1,71 @@
+﻿@using BlogSite.UI.Entities
+@model List<Makale>
+@{
+    ViewData["Title"] = "Makale Listesi";
+}
+
+<style>
+    body {
+        background: url('/images/arkaplan.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', sans-serif;
+        color: #fff;
+    }
+
+    .makale-kart {
+        background-color: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(5px);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    }
+
+    .btn {
+        border-radius: 20px;
+        font-weight: bold;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 3px #000;
+    }
+
+    .makale-ozet {
+        font-size: 0.95rem;
+        opacity: 0.85;
+    }
+
+    .makale-bilgi {
+        font-size: 0.8rem;
+        color: #ccc;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="fw-bold">📄 Yayınlanan Makaleler</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning text-center">Henüz makale eklenmemiş.</div>
+    }
+    else
+    {
+        @foreach (var m in Model)
+        {
+            <div class="makale-kart">
+                <h4 class="fw-bold">@m.Baslik</h4>
+                <p class="makale-ozet">@m.Icerik.Substring(0, Math.Min(m.Icerik.Length, 150))...</p>
+                <p class="makale-bilgi">Yazar: @m.Yazar?.AdSoyad (@m.Yazar?.Email) | Okuma: @m.OkumaSuresi dk | Yayın: @m.YayınTarihi.ToShortDateString()</p>
+                <a href="/Makale/Detay/@m.MakaleId" class="btn btn-outline-primary btn-sm mt-2">Devamını Oku</a>
+            </div>
+        }
+    }
+
+    <div class="text-center mt-5">
+        <a href="/" class="btn btn-outline-light px-4 py-2" style="border-radius: 30px; font-weight: bold; box-shadow: 0 0 10px rgba(255,255,255,0.2);">
+            ⬅️ Anasayfaya Dön
+        </a>
+    </div>
+</div>

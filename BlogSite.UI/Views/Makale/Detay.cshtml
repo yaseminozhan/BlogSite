@@ -1,0 +1,71 @@
+﻿@using BlogSite.UI.Entities
+@model Makale
+@{
+    ViewData["Title"] = Model.Baslik;
+}
+
+<style>
+    body {
+        background: url('/images/arkaplan.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', sans-serif;
+        color: #fff;
+    }
+
+    .detay-kart {
+        background-color: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(6px);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    }
+
+    h1 {
+        text-shadow: 1px 1px 4px #000;
+    }
+
+    .makale-metadata {
+        font-size: 0.9rem;
+        color: #bbb;
+        margin-bottom: 20px;
+    }
+
+    .konular {
+        font-size: 0.85rem;
+        color: #ffc107;
+    }
+
+    .btn-back {
+        border-radius: 30px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="detay-kart">
+        <h1>@Model.Baslik</h1>
+        <p class="makale-metadata">
+            Yazar: @Model.Yazar?.AdSoyad (@Model.Yazar?.Email) | Yayın: @Model.YayınTarihi.ToShortDateString() | Okuma: @Model.OkumaSuresi dk
+        </p>
+
+        @if (Model.MakaleKonular != null && Model.MakaleKonular.Any())
+        {
+            <p class="konular">
+                📌 Konular: @string.Join(", ", Model.MakaleKonular.Select(k => k.Konu!.KonuAdi))
+            </p>
+        }
+
+        <hr />
+        <p style="white-space: pre-line;">@Model.Icerik</p>
+
+        <div class="text-end mt-4">
+            <a href="/Makale/Index" class="btn btn-outline-light btn-back">⬅️ Makale Listesine Dön</a>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="/" class="btn btn-outline-light px-4 py-2" style="border-radius: 30px; font-weight: bold; box-shadow: 0 0 10px rgba(255,255,255,0.2);">
+            ⬅️ Anasayfaya Dön
+        </a>
+    </div>
+</div>

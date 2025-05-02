@@ -1,0 +1,51 @@
+﻿@page
+@model PersonalDataModel
+@{
+    ViewData["Title"] = "Kişisel Veriler";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<style>
+    body {
+        background: url('/images/arkaplan.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', sans-serif;
+        color: #f0f0f0;
+    }
+
+    .data-container {
+        background-color: rgba(0, 0, 0, 0.75);
+        padding: 30px;
+        border-radius: 10px;
+        color: #fff;
+    }
+
+    a {
+        color: #9fd4ff;
+    }
+
+    .btn {
+        margin-top: 10px;
+    }
+</style>
+
+<div class="data-container text-center">
+    <h2 class="text-white fw-bold mb-3">Kişisel Bilgiler</h2>
+    <p>Hesabınızda tuttuğumuz kişisel veriler burada yer alır. Dilerseniz indirebilir ya da silebilirsiniz.</p>
+
+    <div class="alert alert-warning">
+        <strong>Dikkat!</strong> Bu verileri silmek hesabınızı kalıcı olarak silecektir ve geri alınamaz.
+    </div>
+
+    <form asp-page-handler="Download" method="post">
+        <button class="btn btn-outline-primary rounded-pill me-2">📥 İndir</button>
+    </form>
+
+    <form asp-page-handler="Delete" method="post" class="mt-2">
+        <button class="btn btn-danger rounded-pill">🗑️ Hesabı Sil</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,70 @@
+﻿@model MakaleEkleViewModel
+@{
+    ViewData["Title"] = "Makale Ekle";
+}
+
+<style>
+    body {
+        background: url('/images/arkaplan.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', sans-serif;
+        color: #fff;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .form-card {
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    }
+
+    .form-control, .form-select {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="form-card">
+        <h2 class="mb-4 text-center">📝 Yeni Makale Ekle</h2>
+
+        <form asp-action="Ekle" method="post">
+            <div class="mb-3">
+                <label asp-for="Baslik">Makale Başlığı</label>
+                <input asp-for="Baslik" class="form-control" />
+                <span asp-validation-for="Baslik" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Icerik">İçerik</label>
+                <textarea asp-for="Icerik" class="form-control" rows="6"></textarea>
+                <span asp-validation-for="Icerik" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="OkumaSuresi">Tahmini Okuma Süresi (dk)</label>
+                <input asp-for="OkumaSuresi" class="form-control" type="number" min="1" />
+                <span asp-validation-for="OkumaSuresi" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label>Konular</label>
+                <select asp-for="SeciliKonuIdleri" asp-items="@(new MultiSelectList(Model.TumKonular, "KonuId", "KonuAdi"))" class="form-select" multiple>
+                </select>
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-success px-4">Makaleyi Kaydet</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="/" class="btn btn-outline-light px-4 py-2" style="border-radius: 30px; font-weight: bold; box-shadow: 0 0 10px rgba(255,255,255,0.2);">
+            ⬅️ Anasayfaya Dön
+        </a>
+    </div>
+</div>

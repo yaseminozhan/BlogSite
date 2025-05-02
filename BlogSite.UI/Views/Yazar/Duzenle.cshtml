@@ -1,0 +1,60 @@
+﻿@model ProfilDuzenleViewModel
+@{
+    ViewData["Title"] = "Profil Düzenle";
+}
+
+<style>
+    body {
+        background: url('/images/arkaplan.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', sans-serif;
+        color: #fff;
+    }
+
+    .form-kart {
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 30px;
+        border-radius: 15px;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="form-kart">
+        <h2 class="mb-4">👤 Profilini Düzenle</h2>
+
+        <form asp-action="Duzenle" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label asp-for="AdSoyad"></label>
+                <input asp-for="AdSoyad" class="form-control" />
+                <span asp-validation-for="AdSoyad" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Aciklama">Hakkında</label>
+                <textarea asp-for="Aciklama" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Profil Fotoğrafı</label><br />
+                @if (!string.IsNullOrEmpty(Model.MevcutFotoUrl))
+                {
+                    <img src="@Model.MevcutFotoUrl" alt="Mevcut Foto" style="width:100px; border-radius:50%;" class="mb-2" />
+                }
+                <input asp-for="YeniFoto" type="file" class="form-control" />
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-success">Kaydet</button>
+                <a href="/Yazar/Profilim" class="btn btn-outline-light">Vazgeç</a>
+            </div>
+        </form>
+    </div>
+</div>

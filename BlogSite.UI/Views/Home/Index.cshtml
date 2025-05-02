@@ -1,0 +1,159 @@
+﻿@model HomePageViewModel
+@{
+    ViewData["Title"] = "Anasayfa";
+}
+
+<style>
+    body {
+        background: url('/images/arkaplan.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', sans-serif;
+        color: #f0f0f0;
+    }
+
+    .card {
+        background-color: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(5px);
+        color: #f0f0f0;
+    }
+
+    .bg-light,
+    footer {
+        background-color: rgba(0, 0, 0, 0.4) !important;
+        color: #ddd !important;
+    }
+
+    .btn-primary, .btn-outline-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .btn-outline-secondary {
+        color: #f0f0f0;
+        border-color: #ccc;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+
+    h1, h2, h3, h4, h5 {
+        color: #ffffff;
+    }
+</style>
+
+<!-- Header / Logo Area -->
+<div class="py-5 border-bottom text-center">
+    <h1 class="display-3 fw-bold">Blog Sitesi</h1>
+    <p class="lead">Müzik, ilham, enstrümanlar ve yaratıcılıkla dolu bir dünya</p>
+
+    @if (!Model.GirisYapildiMi)
+    {
+        <a href="/Identity/Account/Register" class="btn btn-primary me-2">Üye Ol</a>
+        <a href="/Identity/Account/Login" class="btn btn-outline-secondary">Giriş Yap</a>
+    }
+</div>
+
+<!-- Main Section -->
+<div class="container mt-5">
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-lg-8">
+
+            @if (Model.GirisYapildiMi)
+            {
+                <!-- ÜYE ANASAYFASI -->
+                @if (Model.TakipliKonular.Any())
+                {
+                    <h4 class="mb-4 fw-bold">📌 Takip Ettiğin Konulardaki Makaleler</h4>
+                    @foreach (var m in Model.TakipliMakaleler.Take(5))
+                    {
+                        <div class="card mb-4 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">@m.Baslik</h5>
+                                <p class="card-text">@m.Icerik.Substring(0, Math.Min(m.Icerik.Length, 100))...</p>
+                                <p class="card-text"><small class="text-muted">@m.Yazar?.Email - @m.OkumaSuresi dk</small></p>
+                                <a href="/Makale/Detay/@m.MakaleId" class="btn btn-sm btn-outline-primary">Devamını Oku</a>
+                            </div>
+                        </div>
+                    }
+                    <a href="/Konu/Index" class="btn btn-outline-secondary">Yeni Konu Takip Et</a>
+                }
+                else
+                {
+                    <div class="alert alert-info">Henüz hiç konu takip etmiyorsun. <a href="/Konu/Index" class="text-white fw-bold">Buradan konulara göz at!</a></div>
+                }
+
+                <hr />
+                <h4 class="fw-bold mt-5">🔥 Popüler Makaleler</h4>
+                @foreach (var p in Model.PopulerMakaleler)
+                {
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5>@p.Baslik</h5>
+                            <small class="text-muted">@p.Yazar?.Email - @p.OkumaSuresi dk</small>
+                        </div>
+                    </div>
+                }
+
+                <hr />
+                <h5 class="fw-bold mt-5">🔗 Hızlı Erişim</h5>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="/Home/Hakkimizda" class="btn btn-outline-secondary">Hakkımızda</a>
+                    <a href="/Konu/Index" class="btn btn-outline-secondary">Konu Listesi</a>
+                    <a href="/Makale/Ekle" class="btn btn-outline-secondary">Makale Ekle</a>
+                    <a href="/Makale/Index" class="btn btn-outline-secondary">Makale Listele</a>
+                    <a href="/Yazar/Profilim" class="btn btn-outline-secondary">Yazar Sayfam</a>
+
+                </div>
+            }
+            else
+            {
+                <!-- ZİYARETÇİ ANASAYFASI -->
+                <h4 class="fw-bold mb-4">En Son Makaleler</h4>
+                @foreach (var m in Model.TumMakaleler.Take(5))
+                {
+                    <div class="card mb-4 shadow-sm">
+                        <div class="row g-0">
+                            <div class="col-md-4 d-flex align-items-center">
+                                <img src="/images/makale.png" class="img-fluid rounded-start w-100" style="max-height:180px; object-fit: cover;" alt="Makale Görseli">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">@m.Baslik</h5>
+                                    <p class="card-text">@m.Icerik.Substring(0, Math.Min(m.Icerik.Length, 100))...</p>
+                                    <p class="card-text"><small class="text-muted">@m.Yazar?.Email - @m.OkumaSuresi dk</small></p>
+                                    <a href="/Makale/Detay/@m.MakaleId" class="btn btn-sm btn-outline-primary">Devamını Oku</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="col-lg-4">
+            <div class="mb-4 p-3 bg-light rounded shadow-sm">
+                <h5 class="fw-bold">Hakkımda</h5>
+                <p>Bu platformda müzik, ilham ve hayat hakkında her şeyden bahsedebilirsin. Sen de bizim gibi keşfetmeye hazır mısın?</p>
+                <a href="/Home/Hakkimizda" class="btn btn-outline-info btn-sm mt-2">Hakkımızda</a>
+            </div>
+            <div class="mb-4 p-3 bg-light rounded shadow-sm">
+                <h5 class="fw-bold">Popüler Konular</h5>
+                <ul class="list-unstyled">
+                    <li>#Müzik</li>
+                    <li>#Enstrüman</li>
+                    <li>#KendinYap</li>
+                    <li>#İlham</li>
+                </ul>
+                <a href="/Konu/Index" class="btn btn-outline-primary btn-sm mt-2">Konu Listesi</a>
+            </div>
+        </div>
+    </div>
+</div>
